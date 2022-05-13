@@ -2,20 +2,23 @@ import json
 import csv
 from collections import OrderedDict
 from dictionary import *
+from secrete import *
+
 
 samples = []
 
 with open('hci+d 스승의날 편지.csv', newline='') as csvfile:
     reader = csv.reader(csvfile)
-    next(reader)
-    next(reader)
-    next(reader)
+    for i in range(3):
+        next(reader)
 
     for row in reader:
         person = OrderedDict()
         person['name'] = row[1]
         if row[4] in pokemon_num:
             person['pokenum'] = pokemon_num[row[4]]
+            if row[1] in secrete_dicts:
+                person['pokenum'] = pokemon_num[secrete_dicts[row[1]]]
         else:
             print("find not pokemon")
             print(row[1], row[4])
@@ -26,6 +29,9 @@ with open('hci+d 스승의날 편지.csv', newline='') as csvfile:
             print("find not num")
             print(row[1], row[5])
             person['level'] = row[5]
+            if row[5] == "보라색으로! 꼭 부탁드려요":
+                person['level'] = 1
+
         person['dept'] = row[2]
         person['status'] = row[3]
         person['letter-j'] = row[6]
